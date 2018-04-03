@@ -1,0 +1,34 @@
+{{!-- Movie list view will go here --}}
+
+<h1>Movies </h1>
+<div>
+    <form action="/movies" method="GET">
+        <input type="text" name="title" placeholder="Search movie title">
+        <input type="submit">
+    </form>
+</div>
+
+<table id="movies">
+    <thead>
+        <th>ID</th>
+        <th>Title</th>
+        <th>MPAA</th>
+        <th>Year</th>
+        <th>Length</th>
+        <th>Budget</th>
+        <th>Critic Average</th>
+    </thead>
+    {{#each movies}}
+    <tr class="movie">
+        <td>{{id}}</td>
+        <td>
+            <a href="/movies/{{id}}">{{title}}</a>
+        </td>
+        <td>{{mpaa}}</td>
+        <td>{{year}}</td>
+        <td>{{length}}</td>
+        <td>{{budget}}</td>
+        <td>{{critic_average}}</td>
+    </tr>
+    {{/each}}
+</table>
