@@ -31,15 +31,15 @@ app.get('/api', controllers.api);
 app.listen(config.port, () => {
     console.log(`Now running on http://localhost:${config.port}`);
     // Once it is started, establish the database connection
-    db.connect()
-        .then(() => {
-            // Tell the controllers to use this database connection
-            // See https://stackoverflow.com/questions/22586542/using-global-variables-in-express-node
-            app.set('db', db);
-        })
-        .catch((error) => {
-            // Exit program if we cannot connect
-            console.log(`Error connecting to database ${error.message}`);
-            process.exit();
-        });
+    // db.connect()
+    //     .then(() => {
+    //         // Tell the controllers to use this database connection
+    //         // See https://stackoverflow.com/questions/22586542/using-global-variables-in-express-node
+    //         app.set('db', db);
+    //     })
+    //     .catch((error) => {
+    //         // Exit program if we cannot connect
+    //         console.log(`Error connecting to database ${error.message}`);
+    //         process.exit();
+    //     });
 });
