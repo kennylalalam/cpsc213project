@@ -1,23 +1,25 @@
 {
   "name": "cpsc213project",
   "version": "1.0.0",
-  "description": "Final project for CPSC213",
-  "main": "app.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kennylalalam/cpsc213project"
+    "url": "git+https://github.com/kennylalalam/cpsc213project.git"
   },
-  "author": "Kenny",
+  "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "9.2.1"
+  },
+  "bugs": {
+    "url": "https://github.com/kennylalalam/cpsc213project/issues"
+  },
+  "homepage": "https://github.com/kennylalalam/cpsc213project#readme",
   "dependencies": {
-    "eslint": "^4.18.1",
-    "express": "^4.16.2",
-    "express-handlebars": "^3.0.0",
-    "nodemon": "^1.15.1",
-    "pg-promise": "^7.4.1"
+    "express": "^4.16.3"
   }
 }
