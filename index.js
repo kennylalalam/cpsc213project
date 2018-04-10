@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 
+app.use(express.static('public'))
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8080;
 
