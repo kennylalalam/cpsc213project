@@ -6,7 +6,8 @@ var port = process.env.PORT || 8080;
 
 
 app.get('/', function(req, res){
-    res.send("hello world!");
+       res.sendFile(path.join(__dirname + '/index.html'));
+
  }); 
 
 app.listen(port, () => {
