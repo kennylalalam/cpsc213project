@@ -1,3 +1,5 @@
+//'use strict';
+
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
@@ -6,11 +8,12 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const app = express();
+var MONGO_URL ="mongodb://localhost:27017/cpsc213project"//cpsc213project" process.env.MONGO_URL ||
 
-var MONGO_URL = process.env.MONGO_URL || "mongodb://localhost:27017/cpsc213project"
-mongoose.connect(process.env.MONGO_URL);
+const app = express();
+mongoose.connect(MONGO_URL);
 var path = require("path");
+
 
 app.use(express.static('public'))
 // process.env.PORT lets the port be set by Heroku
@@ -20,7 +23,7 @@ var port = process.env.PORT || 8080;
 const Participants = require('./models/participants.js');
 const Researchers = require('./models/researchers.js');
 
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const store = new MongoDBStore({
     uri: process.env.MONGO_URL,
@@ -50,39 +53,144 @@ app.use(session({
 
 
 
+// app.use((req, res, next) => {
+//     if (req.session.userId) {
+//         Participants.findById(req.session.userId, (err, user) => {
+//             if (!err) {
+//                 res.locals.currentUser = user;
+//             }
+//             next();
+//         });
+//     } else {
+//         next();
+//     }
+// });
 
-app.get('/', function(req, res) => {
+// /**
+//  * Middleware that checks if a user is logged in.
+//  * If so, the request continues to be processed, otherwise a
+//  * 403 is returned.
+//  * @param  {Request} req - The request
+//  * @param  {Response} res - sdf
+//  * @param  {Function} next - sdfs
+//  * @returns {undefined}
+//  */
+// function isLoggedIn(req, res, next) {
+//     if (res.locals.currentUser) {
+//         next();
+//     } else {
+//         res.sendStatus(403);
+//     }
+// }
+
+
+
+app.get('/', function(req, res){
   res.render('index');
-	//var path = require('path');
-//  	res.sendFile(path.join(__dirname+'/public/index.html'));
- });
-
- app.get('/login', function(req, res) => {
-   res.render('login');
+ //  console.log(req.body);
+	// var path = require('path');
+ // 	res.sendFile(path.join(__dirname+'/public/homepage.html'));
   });
 
-  app.post('/participant/registration', function(req, res) => {
 
-    var newParticpant = new Participants();
+app.post('/participant/registration', (req, res) => {
+
+    console.log(req.body);
+
+
+    const newParticipant = new Participants();
     newParticipant.email = req.body.email;
-    newParticipant.name = req.body.name;
+    newParticipant.username = req.body.username;
     newParticipant.hashed_password = req.body.password;
+    console.log(newParticipant);
 
-newParticipant.save(function(err, user) {
-  if(err){
-    err = ['Error registering you!'];
-    res.render('index');
-  }
-  else{
-    req.session.userId = user._id;
+
+    newParticipant.save(function(err, user) {
+      if(err){
+        return res.redirect('/');
+      }
+      else{
+        req.session.userId = user._id;
+        return res.redirect('/');
+      }
+
+    });
+
+});
+
+app.get('/signout', (req, res) => {
+    res.locals.currentUser = null;
+    req.session.destroy();
     return res.redirect('/');
-  }
+});
+
+app.get('/participantlogin', (req, res) => {
+
+      console.log(req.body);
+
+
+  var username = req.body.participantName;
+  var password = req.body.participantPassword;
+
+   Participants.findOne({username: username}, function(err, user) {
+      if(err) return next(err);
+      if(!user){
+        var noUser = ['No such user'];
+        return res.render('index', {errors: noUser});
+      }
+
+      user.comparePassword(password, (err2, match) => {
+
+        if(err2 || !match){
+          var wrongPass = ['Invalid Password'];
+          return res.render('index', {errors: wrongPass});
+        }
+
+        else{
+          req.session.user = user;
+          req.session.userId = user._id;
+          res.locals.currentUser = user;
+          return res.redirect('/');
+        }
+
+      });
+
+
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 });
 
-});
-   });
+
 
 app.listen(port, () => {
     console.log(`Now running on port ${port}`);

@@ -19,19 +19,23 @@ const ParticipantSchema = new Schema({
         lowercase: true,
         unique: true,
     },
-    name: stringField,
+    username: stringField,
     hashed_password: stringField,
 });
 
 ParticipantSchema.pre('save', function userPreHook(next) {
     const user = this;
-
+    console.log(user);
     // only hash the password if it has been modified (or is new)
     if (!user.isModified('hashed_password')) return next();
+
+
 
     // generate a salt
     return bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
         if (err) return next(err);
+
+
 
         // hash the password using our new salt
         return bcrypt.hash(user.hashed_password, salt, (err2, hash) => {
@@ -39,6 +43,9 @@ ParticipantSchema.pre('save', function userPreHook(next) {
 
             // override the cleartext password with the hashed one
             user.hashed_password = hash;
+
+            console.log(user);
+
             return next();
         });
     });

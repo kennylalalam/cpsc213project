@@ -42,7 +42,12 @@
 					<nav id="menu">
 						<h2>Menu</h2>
 						<ul>
-							<li><a href="index.html">Home</a></li>
+							<li>
+
+								<form class="login" action="/" method="get" id="login" name="login">
+								<input type ="submit" value="Home">
+
+							</li>
 							<li><a href="generic.html">About</a></li>
 							<li><a href="team.html">Team</a></li>
 
@@ -53,11 +58,11 @@
 					<div id="main">
 						<div class="inner">
 							<h1>Participant Login</h1>
-							<form>
+							<form class="participantLogin" action="/participantlogin" method="get" id="participantLogin">
   							Username:<br>
-  							<input type="text" name="participantName"><br>
+  							<input type="text" name="participantName" id="participantName"><br>
   							Password:<br>
-  							<input type="Password" name="participantPassword"><br>
+  							<input type="Password" name="participantPassword" id="participantPassword"><br>
 
   							<input type="submit" value="Login">
 							</form>
