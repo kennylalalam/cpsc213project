@@ -19,7 +19,7 @@ const ResearcherSchema = new Schema({
         lowercase: true,
         unique: true,
     },
-    name: stringField,
+    username: stringField,
     institution: stringField,
     hashed_password: stringField,
 });

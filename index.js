@@ -92,20 +92,80 @@ app.get('/', function(req, res){
  // 	res.sendFile(path.join(__dirname+'/public/homepage.html'));
   });
 
+  function isEmpty(str) {
+      return (!str || 0 === str.length);
+  }
 
-app.post('/participant/registration', (req, res) => {
+app.post('/participant-registration', (req, res) => {
 
     console.log(req.body);
+
+    if(isEmpty(req.body.username) || isEmpty(req.body.password) || isEmpty(req.body.email) || isEmpty(req.body.passwordConfirm)){
+      var err1 = ['Username, Password, and Email must not be empty'];
+      return res.render('participant-register', {errors: err1});
+    }
+
+    if(req.body.password !== req.body.passwordConfirm){
+  var err2 = ['Passwords dont match'];
+  return res.render('participant-register', {errors: err2});
+}
+
 
 
     const newParticipant = new Participants();
     newParticipant.email = req.body.email;
     newParticipant.username = req.body.username;
     newParticipant.hashed_password = req.body.password;
+
     console.log(newParticipant);
 
 
-    newParticipant.save(function(err, user) {
+        newParticipant.save(function(err, user) {
+          if(err){
+            return res.redirect('/');
+          }
+          else{
+            req.session.userId = user._id;
+            return res.redirect('/');
+          }
+
+        });
+
+    });
+
+
+
+app.post('/researcher-registration', (req, res) => {
+
+   console.log(isEmpty(req.body.institution));
+   console.log(isEmpty(req.body.passwordConfirm));
+
+    console.log(req.body.institution);
+    console.log(req.body.passwordConfirm);
+
+
+
+    if(isEmpty(req.body.username) || isEmpty(req.body.institution) || isEmpty(req.body.password) || isEmpty(req.body.email) || isEmpty(req.body.passwordConfirm)){
+      var err5 = ['Username, Institution, Password, and Email must not be empty'];
+      return res.render('research-register', {errors: err5});
+    }
+
+    if(req.body.password !== req.body.passwordConfirm){
+  var err6 = ['Passwords dont match'];
+  return res.render('research-register', {errors: err6});
+}
+
+
+
+    const newResearcher = new Researchers();
+    newResearcher.email = req.body.email;
+    newResearcher.username = req.body.username;
+    newResearcher.hashed_password = req.body.password;
+    newResearcher.institution = req.body.institution;
+
+
+
+    newResearcher.save(function(err, user) {
       if(err){
         return res.redirect('/');
       }
@@ -118,13 +178,15 @@ app.post('/participant/registration', (req, res) => {
 
 });
 
+
+
 app.get('/signout', (req, res) => {
     res.locals.currentUser = null;
     req.session.destroy();
     return res.redirect('/');
 });
 
-app.get('/participantlogin', (req, res) => {
+app.post('/participantlogin', (req, res) => {
 
       console.log(req.body);
 
@@ -154,44 +216,10 @@ app.get('/participantlogin', (req, res) => {
         }
 
       });
-
-
-
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
-
 
 
 app.listen(port, () => {
     console.log(`Now running on port ${port}`);
-})
+});
