@@ -8,7 +8,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-var MONGO_URL ="mongodb://localhost:27017/cpsc213project"//cpsc213project" process.env.MONGO_URL ||
+var MONGO_URL = process.env.MONGO_URL || "mongodb://localhost:27017/cpsc213project"
 
 const app = express();
 mongoose.connect(MONGO_URL);
