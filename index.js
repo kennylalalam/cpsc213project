@@ -100,12 +100,14 @@ app.post('/participant-registration', (req, res) => {
 
     console.log(req.body);
 
-    if(isEmpty(req.body.username) || isEmpty(req.body.password) || isEmpty(req.body.email) || isEmpty(req.body.passwordConfirm)){
+    console.log(req.body.passwordConfirmation);
+
+    if(isEmpty(req.body.username) || isEmpty(req.body.password) || isEmpty(req.body.email) || isEmpty(req.body.passwordConfirmation)){
       var err1 = ['Username, Password, and Email must not be empty'];
       return res.render('participant-register', {errors: err1});
     }
 
-    if(req.body.password !== req.body.passwordConfirm){
+    if(req.body.password !== req.body.passwordConfirmation){
   var err2 = ['Passwords dont match'];
   return res.render('participant-register', {errors: err2});
 }
@@ -138,19 +140,19 @@ app.post('/participant-registration', (req, res) => {
 app.post('/researcher-registration', (req, res) => {
 
    console.log(isEmpty(req.body.institution));
-   console.log(isEmpty(req.body.passwordConfirm));
+   console.log(isEmpty(req.body.passwordConfirmation));
 
     console.log(req.body.institution);
-    console.log(req.body.passwordConfirm);
+    console.log(req.body.passwordConfirmation);
 
 
 
-    if(isEmpty(req.body.username) || isEmpty(req.body.institution) || isEmpty(req.body.password) || isEmpty(req.body.email) || isEmpty(req.body.passwordConfirm)){
+    if(isEmpty(req.body.username) || isEmpty(req.body.institution) || isEmpty(req.body.password) || isEmpty(req.body.email) || isEmpty(req.body.passwordConfirmation)){
       var err5 = ['Username, Institution, Password, and Email must not be empty'];
       return res.render('research-register', {errors: err5});
     }
 
-    if(req.body.password !== req.body.passwordConfirm){
+    if(req.body.password !== req.body.passwordConfirmation){
   var err6 = ['Passwords dont match'];
   return res.render('research-register', {errors: err6});
 }
