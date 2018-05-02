@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 
 const express = require('express');
 const exphbs = require('express-handlebars');
@@ -8,7 +8,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-var MONGO_URL = process.env.MONGO_URL || "mongodb://localhost:27017/cpsc213project"
+const MONGO_URL = process.env.MONGO_URL || "mongodb://localhost:27017/cpsc213project"
 
 const app = express();
 mongoose.connect(MONGO_URL);
@@ -17,7 +17,7 @@ var path = require("path");
 
 app.use(express.static('public'))
 // process.env.PORT lets the port be set by Heroku
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
 
 const Participants = require('./models/participants.js');
